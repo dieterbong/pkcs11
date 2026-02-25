@@ -31,7 +31,7 @@ object class:
 |                      |             | • created with a C_CopyObject call as a copy of a key which had its CKA_LOCAL attribute set to CK_TRUE |
 | CKA_KEY_GEN_MECHANISM ^2,4,6^ | CK_MECHANISM_TYPE | Identifier of the mechanism used to generate the key material. |
 | CKA_ALLOWED_MECHANISMS | CK_MECHANISM_TYPE_PTR, pointer to a CK_MECHANISM_TYPE array | A list of mechanisms allowed to be used with this key. The number of mechanisms in the array is the ulValueLen component of the attribute divided by the size of CK_MECHANISM_TYPE. |
-| CKA_OBJECT_VALIDATION_FLAGS ^4,6,9,12^ | CK_FLAGS | Object was created consistent with the validations appearing in flags. |
+| CKA_OBJECT_VALIDATION_FLAGS ^4,6,9^ | CK_FLAGS | Object was created consistent with the validations appearing in flags. |
 table: Common Key Attributes
 
  * Refer to Table 13 for footnotes
