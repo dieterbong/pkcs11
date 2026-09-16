@@ -59,6 +59,7 @@ officially published Cryptoki specifications.
 | 3.0     | 0x03  | 0x00  |
 | 3.1     | 0x03  | 0x01  |
 | 3.2     | 0x03  | 0x02  |
+| 3.3     | 0x03  | 0x03  |
 table: Major and minor version values for published Cryptoki specifications
 
 Minor revisions of the Cryptoki standard are always upwardly compatible within
