@@ -262,9 +262,6 @@ typedef CK_BYTE CK_BBOOL;
 /* an unsigned value, at least 32 bits long */
 typedef unsigned long int CK_ULONG;
 
-/* a signed value, the same size as a CK_ULONG */
-typedef long int CK_LONG;
-
 /* at least 32 bits; each bit is a Boolean flag */
 typedef CK_ULONG CK_FLAGS;
 ~~~
@@ -301,6 +298,8 @@ application, assuming it is compiled with Cryptoki header files consistent
 with the Cryptoki library to which the application is linked.
 
 Note that CK_ULONG, regardless of the underlying implementation-defined size, can only ever contain values up to the maximum value representable as a 32-bit signed integer. This is needed to assure compatibility with all supported platforms and platform drivers. Any type defined in terms of CK_ULONG carries the same restriction.
+
+For most types, a corresponding pointer type is defined with a `_PTR` suffix (for example `CK_BYTE_PTR` as shown above). These are not all explicitly documented.
 
 All numbers and values expressed in this document are decimal, unless they are
 preceded by “0x”, in which case they are hexadecimal values.

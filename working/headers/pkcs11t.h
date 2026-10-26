@@ -48,7 +48,7 @@ typedef CK_BYTE           CK_BBOOL;
 /* an unsigned value, at least 32 bits long */
 typedef unsigned long int CK_ULONG;
 
-/* a signed value, the same size as a CK_ULONG */
+/* Deprecated. Do not use */
 typedef long int          CK_LONG;
 
 /* at least 32 bits; each bit is a Boolean flag */
@@ -440,6 +440,9 @@ typedef CK_ULONG          CK_KEY_TYPE;
 #define CKK_ML_DSA              0x0000004aUL
 #define CKK_SLH_DSA             0x0000004bUL
 
+#define CKK_COMP_KEM            0x0000004cUL
+#define CKK_COMP_SIG            0x0000004dUL
+
 
 #define CKK_VENDOR_DEFINED      0x80000000UL
 
@@ -638,7 +641,8 @@ typedef CK_ULONG          CK_ATTRIBUTE_TYPE;
 #define CKA_HSS_LMOTS_TYPE              0x00000619UL
 #define CKA_HSS_LMS_TYPES               0x0000061aUL
 #define CKA_HSS_LMOTS_TYPES             0x0000061bUL
-#define CKA_HSS_KEYS_REMAINING          0x0000061cUL
+#define CKA_KEYS_REMAINING              0x0000061cUL
+#define CKA_HSS_KEYS_REMAINING          CKA_KEYS_REMAINING /* Deprecated */
 /* new post-quantum (general) */
 #define CKA_PARAMETER_SET               0x0000061dUL
 /* validation objects */
@@ -920,9 +924,12 @@ typedef CK_ULONG          CK_MECHANISM_TYPE;
 
 #define CKM_SSL3_MASTER_KEY_DERIVE_DH  0x00000373UL
 #define CKM_TLS_PRE_MASTER_KEY_GEN     0x00000374UL
-#define CKM_TLS_MASTER_KEY_DERIVE      0x00000375UL
-#define CKM_TLS_KEY_AND_MAC_DERIVE     0x00000376UL
-#define CKM_TLS_MASTER_KEY_DERIVE_DH   0x00000377UL
+/* use CKM_TLS12_MASTER_KEY_DERIVE instead */
+#define CKM_TLS_MASTER_KEY_DERIVE      0x00000375UL /* Deprecated */
+/* use CKM_TLS12_KEY_AND_MAC_DERIVE instead */
+#define CKM_TLS_KEY_AND_MAC_DERIVE     0x00000376UL /* Deprecated */
+/* use CKM_TLS12_MASTER_KEY_DERIVE_DH instead */
+#define CKM_TLS_MASTER_KEY_DERIVE_DH   0x00000377UL /* Deprecated */
 
 #define CKM_TLS_PRF                    0x00000378UL
 
@@ -975,10 +982,12 @@ typedef CK_ULONG          CK_MECHANISM_TYPE;
 #define CKM_WTLS_SERVER_KEY_AND_MAC_DERIVE  0x000003d4UL
 #define CKM_WTLS_CLIENT_KEY_AND_MAC_DERIVE  0x000003d5UL
 
-#define CKM_TLS10_MAC_SERVER                0x000003d6UL
-#define CKM_TLS10_MAC_CLIENT                0x000003d7UL
-#define CKM_TLS12_MAC                       0x000003d8UL
-#define CKM_TLS12_KDF                       0x000003d9UL
+#define CKM_TLS10_MAC_SERVER                0x000003d6UL /* Deprecated */
+#define CKM_TLS10_MAC_CLIENT                0x000003d7UL /* Deprecated */
+/* CKM_TLS12_MAC and CKM_TLS12_KDF are aliases 
+ * for CKM_TLS_MAC and CKM_TLS_KDF */
+#define CKM_TLS12_MAC                       0x000003d8UL /* Deprecated */
+#define CKM_TLS12_KDF                       0x000003d9UL /* Deprecated */
 #define CKM_TLS12_MASTER_KEY_DERIVE         0x000003e0UL
 #define CKM_TLS12_KEY_AND_MAC_DERIVE        0x000003e1UL
 #define CKM_TLS12_MASTER_KEY_DERIVE_DH      0x000003e2UL
@@ -1212,6 +1221,16 @@ typedef CK_ULONG          CK_MECHANISM_TYPE;
 #define CKM_ECDH_X_AES_KEY_WRAP        0x00004038UL
 #define CKM_ECDH_COF_AES_KEY_WRAP      0x00004039UL
 #define CKM_PUB_KEY_FROM_PRIV_KEY      0x0000403aUL
+
+#define CKM_COMP_SIG_KEY_PAIR_GEN      0x0000403dUL
+#define CKM_COMP_SIG                   0x0000403eUL
+#define CKM_COMP_SIG_EXTERNAL_HASH     0x0000403fUL
+#define CKM_COMP_KEM_KEY_PAIR_GEN      0x00004040UL
+#define CKM_COMP_KEM                   0x00004041UL
+
+
+#define CKM_ML_DSA_EXTERNAL_MU_GEN     0x0000403bUL
+#define CKM_ML_DSA_EXTERNAL_MU         0x0000403cUL
 
 #define CKM_ML_KEM_KEY_PAIR_GEN        0x0000000fUL
 #define CKM_ML_KEM                     0x00000017UL
@@ -2626,17 +2645,6 @@ typedef CK_HKDF_PARAMS CK_PTR CK_HKDF_PARAMS_PTR;
 #define CKF_HKDF_SALT_DATA   0x00000002UL
 #define CKF_HKDF_SALT_KEY    0x00000004UL
 
-/* HSS */
-typedef CK_ULONG                   CK_HSS_LEVELS;
-typedef CK_ULONG                   CK_LMS_TYPE;
-typedef CK_ULONG                   CK_LMOTS_TYPE;
-
-typedef struct specifiedParams {
-  CK_HSS_LEVELS levels;
-  CK_LMS_TYPE lm_type[8];
-  CK_LMOTS_TYPE lm_ots_type[8];
-} specifiedParams;
-
 /* IKE Params */
 typedef struct CK_IKE2_PRF_PLUS_DERIVE_PARAMS {
   CK_MECHANISM_TYPE prfMechanism;
@@ -2732,6 +2740,13 @@ typedef struct CK_HASH_SIGN_ADDITIONAL_CONTEXT {
      CK_MECHANISM_TYPE hash;
 } CK_HASH_SIGN_ADDITIONAL_CONTEXT;
 
+typedef struct CK_MU_GEN_PARAMS {
+  CK_OBJECT_HANDLE    hKey,     /* public or private. */
+  CK_BYTE_PTR         pTR;      /* pre computed TR from public key */
+  CK_ULONG            ulTRLen;
+  CK_BYTE_PTR         pctx;
+  CK_ULONG            ulctxLen;
+} CK_MU_GEN_PARAMS;
 
 /* ML-DSA values for CKA_PARAMETER_SETS */
 typedef CK_ULONG CK_ML_DSA_PARAMETER_SET_TYPE;
@@ -2759,6 +2774,42 @@ typedef CK_ULONG CK_ML_KEM_PARAMETER_SET_TYPE;
 #define CKP_ML_KEM_512         0x00000001UL
 #define CKP_ML_KEM_768         0x00000002UL
 #define CKP_ML_KEM_1024        0x00000003UL
+
+/* Composite Signature values for CKA_PARAMETER_SETS */
+typedef CK_ULONG CK_COMP_SIG_PARAMETER_SET_TYPE;
+#define CKP_COMP_SIG_MLDSA44_RSA2048_PSS_SHA256           0x00000001UL
+#define CKP_COMP_SIG_MLDSA44_RSA2048_PKCS15_SHA256        0x00000002UL
+#define CKP_COMP_SIG_MLDSA44_ED25519_SHA512               0x00000003UL
+#define CKP_COMP_SIG_MLDSA44_ECDSA_P256_SHA256            0x00000004UL
+#define CKP_COMP_SIG_MLDSA65_RSA3072_PSS_SHA512           0x00000005UL
+#define CKP_COMP_SIG_MLDSA65_RSA3072_PKCS15_SHA512        0x00000006UL
+#define CKP_COMP_SIG_MLDSA65_RSA4096_PSS_SHA512           0x00000007UL
+#define CKP_COMP_SIG_MLDSA65_RSA4096_PKCS15_SHA512        0x00000008UL
+#define CKP_COMP_SIG_MLDSA65_ECDSA_P256_SHA512            0x00000009UL
+#define CKP_COMP_SIG_MLDSA65_ECDSA_P384_SHA512            0x0000000aUL
+#define CKP_COMP_SIG_MLDSA65_ECDSA_BRAINPOOLP256R1_SHA512 0x0000000bUL
+#define CKP_COMP_SIG_MLDSA65_ED25519_SHA512               0x0000000cUL
+#define CKP_COMP_SIG_MLDSA87_ECDSA_P384_SHA512            0x0000000dUL
+#define CKP_COMP_SIG_MLDSA87_ECDSA_BRAINPOOLP384R1_SHA512 0x0000000eUL
+#define CKP_COMP_SIG_MLDSA87_ED448_SHAKE256               0x0000000fUL
+#define CKP_COMP_SIG_MLDSA87_RSA3072_PSS_SHA512           0x00000010UL
+#define CKP_COMP_SIG_MLDSA87_RSA4096_PSS_SHA512           0x00000011UL
+#define CKP_COMP_SIG_MLDSA87_ECDSA_P521_SHA512            0x00000012UL
+
+/* Composite KEM values for CKA_PARAMETER_SETS */
+typedef CK_ULONG CK_COMP_KEM_PARAMETER_SET_TYPE;
+#define CKP_COMP_KEM_MLKEM768_RSA2048               0x00000001UL
+#define CKP_COMP_KEM_MLKEM768_RSA3072               0x00000002UL
+#define CKP_COMP_KEM_MLKEM768_RSA4096               0x00000003UL
+#define CKP_COMP_KEM_MLKEM768_X25519                0x00000004UL
+#define CKP_COMP_KEM_MLKEM768_ECDH_P256             0x00000005UL
+#define CKP_COMP_KEM_MLKEM768_ECDH_P384             0x00000006UL
+#define CKP_COMP_KEM_MLKEM768_ECDH_BRAINPOOLP256R1  0x00000007UL
+#define CKP_COMP_KEM_MLKEM1024_RSA3072              0x00000008UL
+#define CKP_COMP_KEM_MLKEM1024_ECDH_P384            0x00000009UL
+#define CKP_COMP_KEM_MLKEM1024_ECDH_BRAINPOOLP384R1 0x0000000aUL
+#define CKP_COMP_KEM_MLKEM1024_X448                 0x0000000bUL
+#define CKP_COMP_KEM_MLKEM1024_ECDH_P521            0x0000000cUL
 
 /* Trust values for CKA_TRUST_* */
 typedef CK_ULONG CK_TRUST;
