@@ -274,6 +274,12 @@ R. Housley. RFC 5652: “Cryptographic Message Syntax”, September 2009.
 
 URL: <http://www.ietf.org/rfc/rfc5652.txt>
 
+**[RFC 5723]**
+
+Y. Sheffer,  H. Tschofenig. RFC 5723: “Internet Key Exchange Protocol Version 2 (IKEv2) Session Resumption”, January 2010. 
+
+URL: <http://www.ietf.org/rfc/rfc5723.txt>
+
 **[RFC 5996]**
 
 C. Kaufman, P. Hoffman, Y. Nir, P. Eronen. RFC 5996: “Internet Key Exchange Protocol Version 2 (IKEv2)”, September 2010. 
@@ -297,6 +303,12 @@ URL: <https://tools.ietf.org/html/rfc8391 >
 D. McGrew, m. Curcio, S. Fluhrer. RFC 8554: “Leighton-Micali Hash-Based Signatures”, April 2019.
 
 URL: <https://tools.ietf.org/html/rfc8554>
+
+**[RFC 9370]**
+
+CJ. Tjhai, M. Tomlinson, G. Bartlett, S. Fluhrer, D. Van Geest, O. Garcia-Morchon, V. Smyslov. RFC 9370: "Multiple Key Exchanges in the Internet Key Exchange Protocol Version 2 (IKEv2)", May 2023
+
+URL: <https://www.ietf.org/rfc/rfc9370.html>
 
 **[RIPEMD]**
 
@@ -457,6 +469,12 @@ URL: <http://www.ietf.org/rfc/rfc2104.txt.>
 Rigney et al, “Remote Authentication Dial In User Service (RADIUS)”, IETF RFC 2865, June 2000. 
 
 URL: <http://www.ietf.org/rfc/rfc2865.txt.>
+
+**[RFC 3339]**
+
+Klyne, G. and C. Newman, “Date and Time on the Internet: Timestamps”, IETF RFC 3339, July 2002 
+
+URL: <https://www.rfc-editor.org/rfc/rfc3339.txt>
 
 **[RFC 3552]**
 
